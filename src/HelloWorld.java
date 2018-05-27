@@ -17,6 +17,8 @@ public class HelloWorld {
     private long window;
     // test mesh
     Mesh testMesh;
+    // basic test shader
+    Shader shader;
 
     public void run() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -107,6 +109,9 @@ public class HelloWorld {
                 0, 1, 0,
                 1, -1, 0,
         });
+
+        shader = new Shader();
+        shader.create("basic");
     }
 
     private void loop() {
@@ -119,7 +124,8 @@ public class HelloWorld {
         while ( !glfwWindowShouldClose(window) ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-            // draw mesh
+            // draw mesh, bind shader
+            shader.useShader();
             testMesh.draw();
 
             glfwSwapBuffers(window); // swap the color buffers
@@ -129,6 +135,7 @@ public class HelloWorld {
             glfwPollEvents();
         }
         testMesh.destroy();
+        shader.destroy();
     }
 
     public static void main(String[] args) {
