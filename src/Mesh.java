@@ -1,7 +1,10 @@
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11.*;
 import org.lwjgl.opengl.GL15.*;
 import org.lwjgl.opengl.GL20.*;
 import org.lwjgl.opengl.GL30.*;
+
+import java.nio.IntBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
@@ -16,16 +19,23 @@ public class Mesh {
 
     private int vertexArrayObject;
     private int vertexBufferObject;
-
     private int vertexCount;
+
+    private int indexBufferObject;
+    private int indexCount;
 
     public Mesh () {
 
     }
 
     // returns a boolean for a reason related to shaders
-    public boolean create(float vertices[]) {
+    public boolean create(float vertices[], int indices[]) {
+        indexCount = indices.length / 3;
         vertexArrayObject = glGenVertexArrays();
+        IntBuffer indexBuffer = BufferUtils.createIntBuffer(indices.length);
+        indexBuffer.put(indices);
+        indexBuffer.flip();
+
         glBindVertexArray(vertexArrayObject);
 
         // initialize and bind buffer
@@ -36,19 +46,25 @@ public class Mesh {
         // being able to edit: DYNAMIC or STREAM
         glBufferData(GL_ARRAY_BUFFER, vertices, GL_STATIC_DRAW);
 
+        indexBufferObject = glGenBuffers();
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferObject);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW);
+
+
         // telling openGL what data we are giving it and how to read it. Very important
         glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
 
         glBindVertexArray(0);
 
         // triangular
-        vertexCount = vertices.length / 3;
+        vertexCount = indices.length / 3;
         return true;
     }
 
     public void destroy() {
-        glDeleteBuffers(vertexBufferObject);
         glDeleteVertexArrays(vertexArrayObject);
+        glDeleteBuffers(vertexBufferObject);
+        glDeleteBuffers(indexBufferObject);
     }
 
     public void draw() {
@@ -58,7 +74,8 @@ public class Mesh {
         // allows us to use a specific index to draw
         glEnableVertexAttribArray(0);
 
-        glDrawArrays(GL_TRIANGLES, 0, vertexCount);
+        // only draws 20 indices exactly
+        glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
 
         glDisableVertexAttribArray(0);
 
