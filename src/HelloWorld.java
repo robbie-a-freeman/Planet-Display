@@ -16,9 +16,11 @@ public class HelloWorld {
     // The window handle
     private long window;
     // test mesh
-    Mesh testMesh;
+    private Mesh testMesh;
     // basic test shader
-    Shader shader;
+    private Shader shader;
+    // key press test
+    private GLFWKeyCallback keyCallback;
 
     public void run() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -103,7 +105,19 @@ public class HelloWorld {
         // methods.
         GL.createCapabilities();
 
-        testMesh = new Mesh();
+        shader = new Shader();
+        shader.create("basic");
+
+        testMesh = new Mesh(shader);
+        testMesh.setPositionX(0.0f);
+        testMesh.setPositionY(0);
+        testMesh.setPositionZ(0);
+        testMesh.setRotationX(0);
+        testMesh.setRotationY(0);
+        testMesh.setRotationZ(0);
+        testMesh.setScaleX(1);
+        testMesh.setScaleY(1);
+        testMesh.setScaleZ(1);
         float goldenRatio = 0.8090170f;
         testMesh.create(new float[] {
 
@@ -156,9 +170,6 @@ public class HelloWorld {
                 9,2,5,
                 7,2,11
         });
-
-        shader = new Shader();
-        shader.create("basic");
     }
 
     private void loop() {
@@ -173,13 +184,30 @@ public class HelloWorld {
 
             // draw mesh, bind shader
             shader.useShader();
-            testMesh.draw();
 
-            glfwSwapBuffers(window); // swap the color buffers
+            glfwSetKeyCallback(window, keyCallback = new KeyboardHandler());
+
+            if (KeyboardHandler.isKeyDown(GLFW_KEY_A)) {
+                testMesh.addRotationY(-0.02f);
+            }
+            if (KeyboardHandler.isKeyDown(GLFW_KEY_D)) {
+                testMesh.addRotationY(0.02f);
+            }
+            if (KeyboardHandler.isKeyDown(GLFW_KEY_W)) {
+                testMesh.addRotationX(0.02f);
+            }
+            if (KeyboardHandler.isKeyDown(GLFW_KEY_S)) {
+                testMesh.addRotationX(-0.02f);
+            }
+
+            testMesh.draw();
 
             // Poll for window events. The key callback above will only be
             // invoked during this call.
             glfwPollEvents();
+
+            glfwSwapBuffers(window); // swap the color buffers
+
         }
         testMesh.destroy();
         shader.destroy();

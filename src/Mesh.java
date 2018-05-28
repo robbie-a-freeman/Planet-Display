@@ -1,19 +1,12 @@
 import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11.*;
-import org.lwjgl.opengl.GL15.*;
-import org.lwjgl.opengl.GL20.*;
-import org.lwjgl.opengl.GL30.*;
+import org.joml.*;
 
 import java.nio.IntBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
-import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
-import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
-import static org.lwjgl.opengl.GL30.glBindVertexArray;
-import static org.lwjgl.opengl.GL30.glDeleteVertexArrays;
-import static org.lwjgl.opengl.GL30.glGenVertexArrays;
+import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL30.*;
 
 public class Mesh {
 
@@ -24,8 +17,15 @@ public class Mesh {
     private int indexBufferObject;
     private int indexCount;
 
-    public Mesh () {
+    private Shader shader;
 
+    private Vector3f position, angle, scale;
+
+    public Mesh (Shader shader) {
+        this.shader = shader;
+        position = new Vector3f();
+        angle = new Vector3f();
+        scale = new Vector3f();
     }
 
     // returns a boolean for a reason related to shaders
@@ -58,6 +58,7 @@ public class Mesh {
 
         // triangular
         vertexCount = indices.length / 3;
+
         return true;
     }
 
@@ -73,13 +74,137 @@ public class Mesh {
 
         // allows us to use a specific index to draw
         glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+
+        shader.loadTransformationMatrix(getTransformationMatrix());
 
         // only draws 20 indices exactly
         glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
 
         glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
 
         glBindVertexArray(0);
+    }
+
+    public Matrix4f getTransformationMatrix() {
+        return MatrixMath.createTransformationMatrix(position, angle, scale);
+    }
+
+    public void addPositionX(float value) {
+        position.x += value;
+    }
+
+    public void addPositionY(float value) {
+        position.y += value;
+    }
+
+    public void addPositionZ(float value) {
+        position.z += value;
+    }
+
+    public void addRotationX(float value) {
+        angle.x += value;
+    }
+
+    public void addRotationY(float value) {
+        angle.y += value;
+    }
+
+    public void addRotationZ(float value) {
+        angle.z += value;
+    }
+
+    public void addScaleX(float value) {
+        scale.x += value;
+    }
+
+    public void addScaleY(float value) {
+        scale.y += value;
+    }
+
+    public void addScaleZ(float value) {
+        scale.z += value;
+    }
+    /*
+    public Mesh getMesh() {
+        return model;
+    }
+
+    public void setModel(Mesh mesh) {
+        this.model = model;
+    }
+    */
+    public float getPositionX() {
+        return position.x;
+    }
+
+    public float getPositionY() {
+        return position.y;
+    }
+
+    public float getPositionZ() {
+        return position.z;
+    }
+
+    public void setPositionX(float value) {
+        this.position.x = value;
+    }
+
+    public void setPositionY(float value) {
+        this.position.y = value;
+    }
+
+    public void setPositionZ(float value) {
+        this.position.z = value;
+    }
+
+    public float getRotationX() {
+        return position.x;
+    }
+
+    public float getRotationY() {
+        return position.y;
+    }
+
+    public float getRotationZ() {
+        return position.z;
+    }
+
+    public void setRotationX(float value) {
+        this.angle.x = value;
+    }
+
+    public void setRotationY(float value) {
+        this.angle.y = value;
+    }
+
+    public void setRotationZ(float value) {
+        this.angle.z = value;
+    }
+
+    public float getScaleX() {
+        return scale.x;
+    }
+
+    public float getScaleY() {
+        return scale.y;
+    }
+
+    public float getScaleZ() {
+        return scale.z;
+    }
+
+    public void setScaleX(float value) {
+        this.scale.x = value;
+    }
+
+    public void setScaleY(float value) {
+        this.scale.y = value;
+    }
+
+    public void setScaleZ(float value) {
+        this.scale.z = value;
     }
 
 }

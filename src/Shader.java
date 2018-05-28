@@ -1,5 +1,5 @@
 import org.lwjgl.BufferUtils;
-import org.lwjgl.ovr.OVRVector3f;
+import org.joml.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +13,8 @@ import static org.lwjgl.opengl.GL20.*;
 public class Shader {
 
     private int vertexShader, fragmentShader, program;
+    private int transformationLocation;
+    private int scaleLocation;
 
     public Shader() {
 
@@ -68,11 +70,20 @@ public class Shader {
     }
 
     protected void getAllUniforms() {
+        transformationLocation = getUniform("transformation");
+        scaleLocation = getUniform("scale");
+    }
 
+    public void loadScale(float value) {
+        loadFloatUniform(scaleLocation, value);
     }
 
     protected int getUniform(String name) {
         return glGetUniformLocation(program, name);
+    }
+
+    public void loadTransformationMatrix(Matrix4f matrix) {
+        loadMatrixUniform(transformationLocation, matrix);
     }
 
     protected void loadFloatUniform(int location, float value) {
@@ -89,17 +100,16 @@ public class Shader {
 
     protected void loadMatrixUniform(int location, Matrix4f value) {
         FloatBuffer buffer = BufferUtils.createFloatBuffer(16);
-
-        value.toBuffer(buffer);
-        buffer.flip();
+        value.get(buffer);
         glUniformMatrix4fv(location, false, buffer);
     }
 
     public void useShader() {
+        getAllUniforms();
         glUseProgram(program);
     }
 
-    public  String readSource(String file) {
+    public String readSource(String file) {
         BufferedReader reader = null;
         StringBuilder sourceBuilder = new StringBuilder();
 

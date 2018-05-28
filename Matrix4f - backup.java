@@ -425,6 +425,40 @@ public class Matrix4f {
     }
 
     /**
+     * Alternate rotation method that does
+     * not require an angle parameter.
+     *
+     * @param x     x coordinate of the rotation vector
+     * @param y     y coordinate of the rotation vector
+     * @param z     z coordinate of the rotation vector
+     *
+     * @return Rotation matrix
+     */
+    public static Matrix4f rotate(float x, float y, float z) {
+        Matrix4f rotation = new Matrix4f();
+
+        Vector3f vec = new Vector3f(x, y, z);
+        if (vec.length() != 1f) {
+            vec = vec.normalize();
+            x = vec.x;
+            y = vec.y;
+            z = vec.z;
+        }
+
+        rotation.m00 = x * x * (1f);
+        rotation.m10 = y * x * (1f) + z;
+        rotation.m20 = x * z * (1f) - y;
+        rotation.m01 = x * y * (1f) - z;
+        rotation.m11 = y * y * (1f);
+        rotation.m21 = y * z * (1f) + x;
+        rotation.m02 = x * z * (1f) + y;
+        rotation.m12 = y * z * (1f) - x;
+        rotation.m22 = z * z * (1f);
+
+        return rotation;
+    }
+
+    /**
      * Creates a scaling matrix. Similar to <code>glScale(x, y, z)</code>.
      *
      * @param x Scale factor along the x coordinate
@@ -441,6 +475,45 @@ public class Matrix4f {
         scaling.m22 = z;
 
         return scaling;
+    }
+
+    /**
+     * Returns the matrix in the form of a human readable String.
+     */
+    public String toString() {
+        StringBuilder matrix = new StringBuilder();
+        matrix.append(m00);
+        matrix.append(" ");
+        matrix.append(m01);
+        matrix.append(" ");
+        matrix.append(m02);
+        matrix.append(" ");
+        matrix.append(m03);
+        matrix.append("\n");
+        matrix.append(m10);
+        matrix.append(" ");
+        matrix.append(m11);
+        matrix.append(" ");
+        matrix.append(m12);
+        matrix.append(" ");
+        matrix.append(m13);
+        matrix.append("\n");
+        matrix.append(m20);
+        matrix.append(" ");
+        matrix.append(m21);
+        matrix.append(" ");
+        matrix.append(m22);
+        matrix.append(" ");
+        matrix.append(m23);
+        matrix.append("\n");
+        matrix.append(m30);
+        matrix.append(" ");
+        matrix.append(m31);
+        matrix.append(" ");
+        matrix.append(m32);
+        matrix.append(" ");
+        matrix.append(m33);
+        return matrix.toString();
     }
 
 }
