@@ -110,14 +110,14 @@ public class HelloWorld {
 
         testMesh = new Mesh(shader);
         testMesh.setPositionX(0.0f);
-        testMesh.setPositionY(0);
-        testMesh.setPositionZ(0);
-        testMesh.setRotationX(0);
-        testMesh.setRotationY(0);
-        testMesh.setRotationZ(0);
-        testMesh.setScaleX(1);
-        testMesh.setScaleY(1);
-        testMesh.setScaleZ(1);
+        testMesh.setPositionY(0.0f);
+        testMesh.setPositionZ(1.0f);
+        testMesh.setRotationX(0.0f);
+        testMesh.setRotationY(0.0f);
+        testMesh.setRotationZ(0.0f);
+        testMesh.setScaleX(1.0f);
+        testMesh.setScaleY(1.0f);
+        testMesh.setScaleZ(1.0f);
         float goldenRatio = 0.8090170f;
         float zBooster = 0.0f;
         testMesh.create(new float[] {
