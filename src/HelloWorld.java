@@ -56,7 +56,7 @@ public class HelloWorld {
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE); // UNKNOWN
 
         // Create the window
-        window = glfwCreateWindow(800, 800, "Hello, World! Welcome to the World!", NULL, NULL);
+        window = glfwCreateWindow(1200, 1200, "Hello, World! Welcome to the World!", NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
@@ -119,20 +119,21 @@ public class HelloWorld {
         testMesh.setScaleY(1);
         testMesh.setScaleZ(1);
         float goldenRatio = 0.8090170f;
+        float zBooster = 0.0f;
         testMesh.create(new float[] {
 
-                -1 * goldenRatio / 2.0f, 0, 1 / 2.0f,
-                goldenRatio / 2.0f, 0, 1 / 2.0f,
-                -1 * goldenRatio / 2.0f, 0, -1 / 2.0f,
-                goldenRatio / 2.0f, 0, -1 / 2.0f,
-                0, 1 / 2.0f, goldenRatio / 2.0f,
-                0, 1 / 2.0f, -1 * goldenRatio / 2.0f,
-                0, -1 / 2.0f, goldenRatio / 2.0f,
-                0, -1 / 2.0f, -1 * goldenRatio / 2.0f,
-                1 / 2.0f, goldenRatio / 2.0f, 0,
-                -1 / 2.0f, goldenRatio / 2.0f, 0,
-                1 / 2.0f, -1 * goldenRatio / 2.0f, 0,
-                -1 / 2.0f, -1 * goldenRatio / 2.0f, 0
+                -1 * goldenRatio / 2.0f, 0, 1 / 2.0f + zBooster,
+                goldenRatio / 2.0f, 0, 1 / 2.0f + zBooster,
+                -1 * goldenRatio / 2.0f, 0, -1 / 2.0f + zBooster,
+                goldenRatio / 2.0f, 0, -1 / 2.0f + zBooster,
+                0, 1 / 2.0f, goldenRatio / 2.0f + zBooster,
+                0, 1 / 2.0f, -1 * goldenRatio / 2.0f + zBooster,
+                0, -1 / 2.0f, goldenRatio / 2.0f + zBooster,
+                0, -1 / 2.0f, -1 * goldenRatio / 2.0f + zBooster,
+                1 / 2.0f, goldenRatio / 2.0f, zBooster,
+                -1 / 2.0f, goldenRatio / 2.0f, zBooster,
+                1 / 2.0f, -1 * goldenRatio / 2.0f, zBooster,
+                -1 / 2.0f, -1 * goldenRatio / 2.0f, zBooster
 
                 /* swapping golden ratio with 1, could be useful
                 -1 / 2.0f, 0, goldenRatio / 2.0f,
