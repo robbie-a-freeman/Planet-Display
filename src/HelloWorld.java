@@ -154,7 +154,7 @@ public class HelloWorld {
                 9,5,4,
                 4,5,8,
                 4,8,1,
-                8,10,1, // this line seems to be the problem
+                8,10,1,
                 8,3,10,
                 5,3,8,
                 5,2,3,

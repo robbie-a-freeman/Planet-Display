@@ -30,7 +30,7 @@ public class Mesh {
 
     // returns a boolean for a reason related to shaders
     public boolean create(float vertices[], int indices[]) {
-        indexCount = indices.length / 3;
+        indexCount = indices.length;
         vertexArrayObject = glGenVertexArrays();
         IntBuffer indexBuffer = BufferUtils.createIntBuffer(indices.length);
         indexBuffer.put(indices);
@@ -57,7 +57,7 @@ public class Mesh {
         glBindVertexArray(0);
 
         // triangular
-        vertexCount = indices.length / 3;
+        vertexCount = indices.length;
 
         return true;
     }
