@@ -3,6 +3,6 @@
 out vec4 fragColor;
 
 void main() {
-    fragColor = vec4(0.0f, 2.0f - gl_FragCoord.z, gl_FragCoord.z, 1.0f);
+    fragColor = vec4(0.0f, 1.5f - gl_FragCoord.z, gl_FragCoord.z - 0.5f, 1.0f);
 }
 
