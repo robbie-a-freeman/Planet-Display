@@ -111,7 +111,7 @@ public class HelloWorld {
         testMesh = new Mesh(shader);
         testMesh.setPositionX(0.0f);
         testMesh.setPositionY(0.0f);
-        testMesh.setPositionZ(1.0f);
+        testMesh.setPositionZ(0.0f);
         testMesh.setRotationX(0.0f);
         testMesh.setRotationY(0.0f);
         testMesh.setRotationZ(0.0f);
@@ -201,11 +201,12 @@ public class HelloWorld {
                 testMesh.addRotationX(-0.02f);
             }
 
-            testMesh.draw();
-
             // Poll for window events. The key callback above will only be
             // invoked during this call.
             glfwPollEvents();
+
+            testMesh.draw();
+
 
             glfwSwapBuffers(window); // swap the color buffers
 

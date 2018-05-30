@@ -79,10 +79,12 @@ public class Mesh {
         shader.loadTransformationMatrix(getTransformationMatrix());
 
         // only draws 20 indices exactly
+        
+        glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
         glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
 
-        glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
+        glDisableVertexAttribArray(0);
 
         glBindVertexArray(0);
     }
