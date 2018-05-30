@@ -57,7 +57,7 @@ public class Mesh {
         glBindVertexArray(0);
 
         // triangular
-        vertexCount = indices.length;
+        vertexCount = indices.length / 3;
 
         return true;
     }
@@ -79,7 +79,7 @@ public class Mesh {
         shader.loadTransformationMatrix(getTransformationMatrix());
 
         // only draws 20 indices exactly
-        
+
         glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
         glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
 
